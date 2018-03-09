@@ -1,11 +1,10 @@
 clc;
 clear all;
 close all;
-% import robot;
+import robot;
  %% Initialising the robots and various parameters
 n = 5;
 t = transpose(linspace(0,1000,100));
-% robo(n) = struct(
 %% Initial orientation
 theta_0 = 2*pi*(-n + (2*n)*rand(n,1));
 
@@ -32,8 +31,6 @@ t_next = t_curr;
 % disp_x = zeros(length(t),n);
 % disp_y = zeros(length(t),n);
 % rand_switch = transpose(rand(1,100));
-count =length(t);
-l =1;
 while t_curr < 100
     rand_switch = rand(1);
     alpha = 2*pi*(-n + ((2*n)*rand(1)))/n;
@@ -44,13 +41,9 @@ while t_curr < 100
         disp_x(i,j) = x_0(j) + del_x(i,j);
         disp_y(i,j) = y_0(j) + del_y(i,j);
         x_0(j) = disp_x(i,j);
-        y_0(j) = disp_y(i,j);
-        disp
-%         dispx(i,j,count(i)) = disp_x(i,j);
-%         dispy(i,j,count(i)) = disp_y(i,j);    
+        y_0(j) = disp_y(i,j);           
         t_curr;
     end
-    
 %     r(i).getodometry(disp_x(:,i),disp_y(:,i),theta_0(:,i));    
 %     if i>50
     if rand_switch  > 0.8 
@@ -70,7 +63,6 @@ while t_curr < 100
     if i < 100
         t_curr = t(i);
         t_next = t(i+1);
-        count = count +1;
     else
         break;
     end
@@ -79,7 +71,7 @@ while t_curr < 100
 end
 theta_new = [theta_0';
             theta_del'];
-%{       
+%     
 figure(1);
 p1 = plot(disp_x,disp_y);
 l1 = legend('${Robot_1}$','${Robot_2}$','${Robot_3}$','${Robot_4}$','${Robot_5}$','${Robot_6}$','${Robot_7}$','${Robot_8}$','${Robot_9}$','${Robot_10}$');
@@ -98,10 +90,10 @@ ylabel('{\theta}');
 %}
 %% Assigning the values to the robot class 
 i=1;
-% for i=1:n
-%   rob(i) = r(:,i).getodometry(disp_x(:,i), disp_y(:,i), theta_new(:,i));
-% end
-% rob = rob';
+for i=1:n
+  rob(i) = r(:,i).getodometry(disp_x(:,i), disp_y(:,i), theta_new(:,i));
+end
+rob = rob';
 %% Calculating the distance to the neighbours
 l =1;
 i=1;
